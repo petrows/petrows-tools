@@ -17,7 +17,7 @@ function magic_quotes ($arr)
 			$arr[$k] = magic_quotes ($v);
 		return $arr;
 	}
-	
+
 	$arr = stripslashes($arr);
 	return $arr;
 }
@@ -35,24 +35,24 @@ class tools2
 {
 	public $params = array ();
 	public $input  = array ();
-	
+
 	public $page_class;
 	public $page_name;
-	
+
 	public $mainhref;
 	public $page_title = '';
 	public $text_title = '';
 	public $error  = array ();
-	
+
 	public $user_id = 0;
 	public $raw_output = false;
-	
+
 	function display ()
 	{
 		$this->init_session ();
 		$this->parse_input_vars ();
 		$this->mainhref = $this->load_page ();
-		
+
 		if (!empty($this->error))
 		{
 			$this->page_title = 'Error';
@@ -63,7 +63,7 @@ class tools2
 			$err_out .= '</div>';
 			$this->mainhref = $err_out;
 		}
-		
+
 		if ($this->raw_output)
 		{
 			echo $this->mainhref;
@@ -72,11 +72,11 @@ class tools2
 			$main_tpl->assign ('main', $this->mainhref);
 			$main_tpl->assign ('page_title', $this->page_title);
 			$main_tpl->assign ('text_title', $this->text_title);
-			
+
 			$main_tpl->display ('index.tpl');
 		}
 	}
-	
+
 	function init_session ()
 	{
 		if (!preg_match('/^[a-f0-9]{32}$/', @$_COOKIE['wt-user']))
@@ -87,16 +87,17 @@ class tools2
 			$this->user_id = $_COOKIE['wt-user'];
 		}
 	}
-	
+
 	function load_page ()
 	{
 		# Load page
 		$this->page_name = 'index';
 		if (isset($this->input[0]))
 		{
-			$this->page_name = strtolower(eregi_replace('[^a-z0-9\-_]','',$this->input[0]));
+			#$this->page_name = strtolower(eregi_replace('[^a-z0-9\-_]','',$this->input[0]));
+			$this->page_name = strtolower(preg_replace('/[^a-z0-9\-_]/i','',$this->input[0]));
 		}
-		
+
 		if (!file_exists(ROOT_PATH.'/pages/page.'.$this->page_name.'.php'))
 		{
 			# Error!
@@ -113,24 +114,25 @@ class tools2
 		}
 		$t = 'page_'.$this->page_name;
 		$this->page_class = new $t ();
-		
+
 		$out = $this->page_class->display ();
 		$this->page_title = $this->page_class->page_title;
 		$this->text_title = $this->page_class->text_title;
 		return $out;
 	}
-	
+
 	function parse_input_vars ()
 	{
 		$this->params = array ();
 		$this->input  = array ();
-		
+
 		if (!isset($_GET['url']))
 			return;
-			
+
 		$_GET['url'] = trim ($_GET['url'], '/');
-		$_GET['url'] = eregi_replace ("[^a-zA-Z0-9\/_-]", "", $_GET['url']);
-		
+		#$_GET['url'] = eregi_replace ("[^a-zA-Z0-9\/_-]", "", $_GET['url']);
+		$_GET['url'] = preg_replace ("/[^a-zA-Z0-9\/_-]/i", "", $_GET['url']);
+
 		if ($_GET['url'] == '')
 		{
 			unset($_GET['url']);
@@ -138,7 +140,7 @@ class tools2
 		}
 		$_GET['url'] = strtolower ($_GET['url']);
 		$this->input = explode ('/',$_GET['url']);
-		
+
 		$url = parse_url($_SERVER['REQUEST_URI']);
 		if (!isset($url['query']))
 			return;
@@ -161,9 +163,9 @@ class tools2
 		{
 			$this->params[$k] = ClearUrl ($v);
 		}
-		
+
 		$_GET = $this->params;
-	}	
+	}
 }
 
 $GLOBALS['core'] = new tools2();

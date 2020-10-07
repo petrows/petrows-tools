@@ -10,9 +10,9 @@ class page_browser extends page
 		$heads = array ();
 		foreach ($_SERVER as $h=>$v)
 		{
-			if (ereg('^HTTP_', $h))
+			if (preg_match('/^HTTP_/', $h))
 			{
-				$h = ereg_replace ('^HTTP_', '', $h);
+				$h = preg_replace ('/^HTTP_/i', '', $h);
 				$h = str_replace ('_', ' ', $h);
 				$h = ucwords(strtolower($h));
 				$h = str_replace (' ', '-', $h);

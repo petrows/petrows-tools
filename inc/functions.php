@@ -1,9 +1,9 @@
 <?php
 
-$our_url = "http://".$_SERVER['HTTP_HOST'] . rtrim($_SERVER['PHP_SELF'], '/\\');
+$our_url = $_SERVER['REQUEST_SCHEME']."://".$_SERVER['HTTP_HOST'] . rtrim($_SERVER['PHP_SELF'], '/\\');
 define ('URL',$our_url);
 
-$our_url = "http://".$_SERVER['HTTP_HOST'] . rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+$our_url = $_SERVER['REQUEST_SCHEME']."://".$_SERVER['HTTP_HOST'] . rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
 define ('SITE_URL_ABS',$our_url);
 define ('SITE_URL_SCRIPT',$our_url);
 
@@ -18,21 +18,22 @@ function tpl ()
 
 		$obj->assign ('url_abs', SITE_URL_ABS);
 		$obj->assign ('url', SITE_URL_SCRIPT);
-		
+
 		$obj->assign ('rnd', mt_rand(10,10000));
 		$obj->assign ('rnd_b', md5(mt_rand(1000,9000)));
-				
+
 		$obj->assign ('server', $_SERVER);
 		$obj->assign ('env', $_ENV);
-		
+
 		$obj->assign ('version', VERSION);
-		
+
 		return $obj;
 }
 
 function ClearUrl($url)
 {
-	$url = eregi_replace ("[^A-zА-я0-9_\?=-]", "", $url);
+	#$url = eregi_replace ("[^A-zА-я0-9_\?=-]", "", $url);
+	$url = preg_replace ("/[^A-zА-я0-9_\?=-]/i", "", $url);
 	$url = str_replace ("\\", "", $url);
 	return $url;
 };
@@ -48,17 +49,17 @@ function js_esc1 ($s)
 	$s = str_replace('%2F', '/', $s);
 	return $s;
 }
-function js_esc($str){ 
-    $escape_chars = "%u0410 %u0430 %u0411 %u0431 %u0412 %u0432 %u0413 %u0433 %u0490 %u0491 %u0414 %u0434 %u0415 %u0435 %u0401 %u0451 %u0404 %u0454 %u0416 %u0436 %u0417 %u0437 %u0418 %u0438 %u0406 %u0456 %u0419 %u0439 %u041A %u043A %u041B %u043B %u041C %u043C %u041D %u043D %u041E %u043E %u041F %u043F %u0420 %u0440 %u0421 %u0441 %u0422 %u0442 %u0423 %u0443 %u0424 %u0444 %u0425 %u0445 %u0426 %u0446 %u0427 %u0447 %u0428 %u0448 %u0429 %u0449 %u042A %u044A %u042B %u044B %u042C %u044C %u042D %u044D %u042E %u044E %u042F %u044F"; 
-    $russian_chars = "А а Б б В в Г г Ґ ґ Д д Е е Ё ё Є є Ж ж З з И и І і Й й К к Л л М м Н н О о П п Р р С с Т т У у Ф ф Х х Ц ц Ч ч Ш ш Щ щ Ъ ъ Ы ы Ь ь Э э Ю ю Я я"; 
-    $e = explode(" ",$escape_chars); 
-    $r = explode(" ",$russian_chars); 
-    $rus_array = str_split($str); 
-    $new_word = str_replace($r,$e,$rus_array); 
-    $new_word = str_replace(" ","%20",$new_word); 
-    $new_word = implode("",$new_word); 
-    return ($new_word); 
-} 
+function js_esc($str){
+    $escape_chars = "%u0410 %u0430 %u0411 %u0431 %u0412 %u0432 %u0413 %u0433 %u0490 %u0491 %u0414 %u0434 %u0415 %u0435 %u0401 %u0451 %u0404 %u0454 %u0416 %u0436 %u0417 %u0437 %u0418 %u0438 %u0406 %u0456 %u0419 %u0439 %u041A %u043A %u041B %u043B %u041C %u043C %u041D %u043D %u041E %u043E %u041F %u043F %u0420 %u0440 %u0421 %u0441 %u0422 %u0442 %u0423 %u0443 %u0424 %u0444 %u0425 %u0445 %u0426 %u0446 %u0427 %u0447 %u0428 %u0448 %u0429 %u0449 %u042A %u044A %u042B %u044B %u042C %u044C %u042D %u044D %u042E %u044E %u042F %u044F";
+    $russian_chars = "А а Б б В в Г г Ґ ґ Д д Е е Ё ё Є є Ж ж З з И и І і Й й К к Л л М м Н н О о П п Р р С с Т т У у Ф ф Х х Ц ц Ч ч Ш ш Щ щ Ъ ъ Ы ы Ь ь Э э Ю ю Я я";
+    $e = explode(" ",$escape_chars);
+    $r = explode(" ",$russian_chars);
+    $rus_array = str_split($str);
+    $new_word = str_replace($r,$e,$rus_array);
+    $new_word = str_replace(" ","%20",$new_word);
+    $new_word = implode("",$new_word);
+    return ($new_word);
+}
 */
 
 function js_esc ($s)
@@ -91,7 +92,7 @@ function utf16urlencode($str)
 {
 	$str = mb_convert_encoding($str, 'UTF-16', 'UTF-8');
 	$out = '';
-	for ($i = 0; $i < mb_strlen($str, 'UTF-16'); $i++) 
+	for ($i = 0; $i < mb_strlen($str, 'UTF-16'); $i++)
 	{
 		$out .= '%u'.bin2hex(mb_substr($str, $i, 1, 'UTF-16'));
 	}
@@ -102,7 +103,7 @@ function utf16urldecode($str)
 {
 	$str = explode('%u', $str);
 	$out = '';
-	for ($i = 0; $i < count($str); $i++) 
+	for ($i = 0; $i < count($str); $i++)
 	{
 		$out .= pack('H*', $str[$i]);
 	}

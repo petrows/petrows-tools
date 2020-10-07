@@ -17,7 +17,7 @@ class page_php_func extends page
 		# We have BackEnd request?
 		if (@$GLOBALS['core']->input[1] == 'ajax')
 			return $this->backend ();
-		
+
 		$tpl = tpl ();
 		$js_f_list = array ();
 		foreach ($this->f_list as $k=>$v)
@@ -40,24 +40,24 @@ class page_php_func extends page
 		$tpl->assign ('func_cat', $js_c_list);
 		return $tpl->fetch ('php_func.tpl');
 	}
-	
+
 	function backend ()
 	{
 		$this->proc_text ();
 		echo $this->ajax_out;
-		exit ();		
+		exit ();
 		$this->ajax = new JsHttpRequest('UTF-8');
 		$this->ajax_out = 'No String given';
 		$this->proc_text ();
 		$this->send_js ();
 	}
-	
+
 	function send_js ($text)
 	{
 		#$rep_js = mt_rand(10,10000).substr(md5(uniqid('f%')), 4, 4);
 		#$text = str_replace ('<', '', $text);
 		#$text = str_replace ('>', '', $text);
-		
+
 		if (isset($_POST['result_as_file']))
 		{
 			# Send the file!
@@ -80,14 +80,14 @@ class page_php_func extends page
 		echo '</script></body></html>';
 		exit ();
 	}
-	
+
 	function proc_text ()
 	{
 		#print_r ($_POST);
 		#if (!isset($_REQUEST['qw'], $_REQUEST['text'])) return;
 		#$qw_list = $_REQUEST['qw'];
 		if (empty($_POST)) exit ();
-		
+
 		if (is_uploaded_file(@$_FILES['req_file']['tmp_name']))
 		{
 			# Upload a file!
@@ -111,7 +111,7 @@ class page_php_func extends page
 		foreach ($qw_list as $k=>$v)
 		{
 			# Special: hilight
-			if (ereg('^hl-', $v))
+			if (preg_match('/^hl-/', $v))
 			{
 				$this->ajax_out = $func_core->code_hilight ($this->ajax_out, $v);
 				continue;
