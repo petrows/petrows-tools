@@ -1,0 +1,63 @@
+<table cellpadding="3" cellspacing="0">
+<tr>
+	<td class="s1_title" align="right" width="1" nowrap="nowrap">IP Address :</td><td class="s1_text" align="left">{{$server.REMOTE_ADDR}}</td>
+</tr>
+<tr>
+	<td class="text_title" align="left" colspan="2">HTTP Headers :</td>
+</tr>
+
+{{if $server.HTTP_USER_AGENT}}
+<tr>
+	<td class="s1_title" align="right" nowrap="nowrap">User-Agent :</td><td class="s1_text" align="left">{{$server.HTTP_USER_AGENT}}</td>
+</tr>
+{{/if}}
+
+{{if $server.HTTP_FORWARDED_FOR_IP}}
+<tr>
+	<td class="s1_title" align="right" nowrap="nowrap">Forwarded-For-IP :</td><td class="s1_text" align="left">{{$server.HTTP_FORWARDED_FOR_IP}}</td>
+</tr>
+{{/if}}
+
+{{if $server.HTTP_REFERER}}
+<tr>
+	<td class="s1_title" align="right" nowrap="nowrap">Referer :</td><td class="s1_text" align="left">{{$server.HTTP_REFERER}}</td>
+</tr>
+{{/if}}
+
+{{if $server.HTTP_VIA}}
+<tr>
+	<td class="s1_title" align="right" nowrap="nowrap">Via :</td><td class="s1_text" align="left">{{$server.HTTP_VIA}}</td>
+</tr>
+{{/if}}
+
+{{if $server.HTTP_X_FORWARDED_FOR}}
+<tr>
+	<td class="s1_title" align="right" nowrap="nowrap">X-Forwarded-For :</td><td class="s1_text" align="left">{{$server.HTTP_X_FORWARDED_FOR}}</td>
+</tr>
+{{/if}}
+
+{{if $server.HTTP_FORWARDED_FOR}}
+<tr>
+	<td class="s1_title" align="right" nowrap="nowrap">Forwarded-For :</td><td class="s1_text" align="left">{{$server.HTTP_FORWARDED_FOR}}</td>
+</tr>
+{{/if}}
+
+{{if $server.HTTP_FORWARDED}}
+<tr>
+	<td class="s1_title" align="right" nowrap="nowrap">Forwarded :</td><td class="s1_text" align="left">{{$server.HTTP_FORWARDED}}</td>
+</tr>
+{{/if}}
+
+{{if $server.HTTP_CLIENT_IP}}
+<tr>
+	<td class="s1_title" align="right" nowrap="nowrap">Client IP :</td><td class="s1_text" align="left">{{$server.HTTP_CLIENT_IP}}</td>
+</tr>
+{{/if}}
+
+{{if $server.HTTP_FORWARDED_FOR_IP}}
+<tr>
+	<td class="s1_title" align="right" nowrap="nowrap">Forwarded-For-IP :</td><td class="s1_text" align="left">{{$server.HTTP_FORWARDED_FOR_IP}}</td>
+</tr>
+{{/if}}
+
+</table>

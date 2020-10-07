@@ -1,0 +1,164 @@
+body
+{
+	padding: 0px;
+	margin: 0px;
+}
+
+td, p, body
+{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	line-height: 135%;
+}
+
+a:link, a:active, a:visited
+{
+	font-weight: bold;
+	color: #990000;
+	text-decoration: none;
+}
+a:hover
+{
+	font-weight: bold;
+	text-decoration: none;
+	color: #FF9933;
+}
+
+.menu
+{
+	padding: 5px;
+	line-height: 145%;
+}
+.menu a:link, .menu a:active, .menu a:visited
+{
+	font-family: "Liberation sans", Georgia, "Times New Roman", Times, serif;
+	font-size: 14px;
+	font-weight: bold;
+	color: #990000;
+	text-decoration: none;
+}
+.menu a:hover
+{
+	font-weight: bold;
+	text-decoration: none;
+	color: #FF9933;
+}
+
+.logo
+{
+	font-size: 18px;
+	padding: 10px;
+}
+
+.text_title
+{
+	font-weight: bold;
+	color: #FF9933;
+	padding: 5px;
+	margin: 0px;
+	margin-bottom: 5px;
+	border-top: 1px dotted #FF9933;
+	border-bottom: 1px dotted #FF9933;
+}
+.body_main
+{
+	padding: 5px;
+	padding-right: 15px;
+}
+
+.s1_title_p
+{
+	font-weight: bold;
+	color: #63331D;
+	border-bottom: 1px dotted #996600;
+}
+.s1_title
+{
+	font-weight: bold;
+	color: #996600;
+	white-space: nowrap;
+}
+.s1_text
+{
+	font-family: "Liberation mono", "Courier New", Courier, monospace;
+	font-size: 13px;
+}
+
+.inp
+{
+	border-top: 1px solid #CCC;
+	border-left: 1px solid #CCC;
+border-right: 2px solid #ae4848;
+border-bottom: 2px solid #ae4848;
+	padding: 2px;
+	padding-left: 5px;
+	padding-right: 5px;
+	background-color: #FFF;
+	font-family: "Liberation mono", "courier new", courier, mono;
+	font-size: 13px;
+	vertical-align: middle;
+}
+.btn
+{
+	border-top: 1px solid #CCC;
+	border-left: 1px solid #CCC;
+	border-right: 2px solid #333;
+	border-bottom: 2px solid #333;
+	padding: 5px;
+	padding-left: 8px;
+	padding-right: 8px;
+	cursor: pointer;
+	font-weight: bold;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	background-color: #CCD;
+	color: #333;
+	vertical-align: middle;
+}
+.btn:hover
+{
+	background-color: #FFF;
+	background-image: none;
+}
+
+label
+{
+	cursor: pointer;
+}
+
+.par
+{
+	text-align: justify;
+	font-family: "Liberation sans", Georgia, "Times New Roman", Times, serif;
+	text-indent: 10px;
+	font-size: 14px;
+}
+
+.copyright
+{
+	border-top: 1px dotted #FF9933;
+	border-bottom: 1px dotted #FF9933;
+	padding: 3px;
+	font-size: 10px;
+}
+
+.ex
+{
+	font-family: "Liberation mono", "courier new", courier, mono;
+	font-size: 13px;
+	display: block;
+	border: 1px dotted #999;
+	margin: 3px;
+	padding: 3px;
+	text-indent: 0px;
+}
+
+.result
+{
+	border: 1px dotted #999;
+	padding:3px;
+	margin:3px;
+	/*overflow-y: scroll;*/
+	overflow: auto;
+	clip: rect(1px,auto,1px,auto);
+}

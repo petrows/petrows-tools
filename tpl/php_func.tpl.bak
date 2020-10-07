@@ -1,0 +1,158 @@
+<script type="text/javascript">
+//<!--
+var func_query = new Array ();
+var func_list = new Array (
+{{$func_list}}
+);
+var func_cat = new Array (
+{{$func_cat}}
+);
+
+var qw_result = '';
+
+function qw_add ()
+{
+	var sel = my_getbyid ('func_selector');
+	var func = sel.options[sel.selectedIndex].value;
+	func_query.push(func);
+	qw_draw ();
+}
+function qw_draw ()
+{
+	if (func_query.length == 0)
+	{
+		my_getbyid('func_query').innerHTML = 'Query is empty';
+		return;
+	}
+	// Fill the query
+	var out = '<div>&darr; <b>Text</b><br/>';
+	var c_f = '';
+	for (var x=0; x<func_query.length; x++)
+	{
+		c_f = get_func(func_query[x]);
+		out += '<div>&darr; <b>'+c_f[1]+'</b><br/>';
+	}
+	out += '[<a href="javascript:func_query=new Array();qw_draw();">Clear Query</a>]';
+	my_getbyid('func_query').innerHTML = out;
+}
+function get_func (name)
+{
+	for (n=0; n<func_list.length; n++)
+	{
+		if (name == func_list[n][0])
+		{
+			return func_list[n];
+		}
+	}
+	return false;
+}
+function draw_func_info (func)
+{
+	var out = '';
+	//alert (func);	
+	var data = get_func (func);
+	if (!data) return;
+	out += '<p class="par"><b>'+data[1]+'</b></p>';
+	out += '<p class="par">'+data[2]+'</p>';
+	// Link to manual
+	if (data[3])
+	{
+		out += '<p class="par"><a href="'+data[3]+'" target="_blank">Link</a> to manual/description.</p>';
+	}
+	my_getbyid('func_select_descr').innerHTML = out;
+}
+function func_select_draw ()
+{
+	var out = '<select id="func_selector" onchange="draw_func_info(this.options[this.selectedIndex].value);">';
+	for (x=0; x<func_list.length; x++)
+	{
+		out += '<option value="'+func_list[x][0]+'">'+func_list[x][1]+'</option>';
+	}
+	out += '</select>';
+
+	my_getbyid('func_select').innerHTML = out;
+}
+function get_request (result, debugMessages) 
+{
+	qw_result = unescape(result['res']);
+	var html_res = qw_result;
+	html_res = html_res.replace('/</g', '&lt;');
+	html_res = html_res.replace('/>/g', '&gt;');
+	my_getbyid('result').innerHTML = '<pre>'+html_res+'</pre>';
+}
+
+function apply ()
+{
+	//var aj = new JsHttpRequest ();
+	var req = new Array ();
+	req['qw'] = func_query;
+	req['text'] = my_getbyid('input_text').value;
+	//alert(req['text']);
+	JsHttpRequest.query(
+		'{{$url}}/php_func/ajax/', // backend
+		req,
+		// Function is called when an answer arrives. 
+		get_request,
+		true  // do not disable caching
+	);
+}
+
+function copy_text ()
+{
+	var text = my_getbyid('input_text').value = qw_result;
+}
+//-->
+</script>
+<table cellpadding="3" cellspacing="0" width="100%">
+<tr>
+	<td class="s1_title_p">String to process</td>
+</tr>
+<tr>
+	<td class="s1_text" align="left"><textarea id="input_text" style="width:100%" rows="8" cols="40"></textarea></td>
+</tr>
+<tr>
+	<td class="s1_title_p">Select Functions</td>
+</tr>
+<tr>
+	<td class="s1_text" align="left">
+		<table cellpadding="3" cellspacing="0" width="100%">
+		<tr>
+			<td width="150" valign="top" align="center">
+				<div id="func_select" style="padding:7px;"></div>
+				<input type="button" onclick="qw_add();" class="btn" value=" Add Function " />
+			</td>
+			<td valign="top"><div id="func_select_descr"></div></td>
+		</tr>
+		</table>	
+	</td>
+</tr>
+<tr>
+	<td class="s1_title_p">Selected Functions Query</td>
+</tr>
+<tr>
+	<td class="s1_text" align="left"><div id="func_query">Query is empty</div></td>
+</tr>
+<tr>
+<td align="center" style="padding: 5px;">
+	<input type="button" onclick="apply ();" class="btn" value=" Apply Selected Functions " />
+</td>
+</tr>
+</table>
+
+<table cellpadding="3" cellspacing="0" width="100%">
+<tr>
+	<td class="s1_title_p">Result</td>
+</tr>
+<tr>
+	<td class="s1_text" align="left">
+	<div id="result">There is no result now</div>
+	[<a href="javascript:copy_text();">Copy to Input Text</a>]
+	</td>
+</tr>
+</table>
+<script type="text/javascript">
+//<!--
+func_select_draw ();
+draw_func_info (func_list[0][0]);
+//-->
+</script>
