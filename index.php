@@ -22,14 +22,6 @@ function magic_quotes ($arr)
 	return $arr;
 }
 
-if (get_magic_quotes_gpc())
-{
-	$_POST 		= magic_quotes ($_POST);
-	$_GET 		= magic_quotes ($_GET);
-	$_COOKIE 	= magic_quotes ($_COOKIE);
-	$_REQUEST 	= magic_quotes ($_REQUEST);
-}
-
 # Main class
 class tools2
 {

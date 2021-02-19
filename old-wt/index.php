@@ -10,16 +10,9 @@ function magic_quotes ($arr)
 			$arr[$k] = magic_quotes ($v);
 		return $arr;
 	}
-	
+
 	$arr = stripslashes($arr);
 	return $arr;
-}
-
-if (get_magic_quotes_gpc())
-{
-	$_POST 		= magic_quotes ($_POST);
-	$_GET 		= magic_quotes ($_GET);
-	$_COOKIE 	= magic_quotes ($_COOKIE);
 }
 
 class web_tools
@@ -27,7 +20,7 @@ class web_tools
 	var $out = '';
 	var $str_in = false;
 	var $f_c = 0;
-	
+
 	var $modes = array ('std', 'txt');
 
 	function display ()
@@ -39,23 +32,23 @@ class web_tools
 			setcookie('webtooldu','1', time()+999999, '/');
 			$_POST['du'] = true;
 		}
-		
+
 		if (isset($_POST['s'])) {
 			setcookie('webtool',base64_encode($_POST['s']), time()+999999, '/');
 		} elseif (!isset($_POST['s']) && isset($_COOKIE['webtool'])) {
 			$_POST['s'] = base64_decode($_COOKIE['webtool']);
 		}
-		
 
-		
+
+
 		if (!in_array(@$_GET['m'], $this->modes))
 		{
 			$_GET['m'] = 'std';
 		}
-		
+
 		#if (!isset($_POST['sub_send']))
 		#	$_POST['du'] = 'ON';
-		
+
 		if ($_GET['m'] == 'std')
 		{
 			$this->out .= '<table border="0" width="100%">';
@@ -63,34 +56,34 @@ class web_tools
 			$this->out .= '<tr><td><b>Your IP</b></td><td>'.$_SERVER['REMOTE_ADDR'].'</td></tr>';
 			$this->out .= '<tr><td><b>Your User-Agent</b></td><td>'.$_SERVER['HTTP_USER_AGENT'].'</td></tr>';
 			$this->out .= '</table><hr/>';
-			
+
 			# Show the form
 			$this->out .= $this->show_form ();
 		}
-		
+
 		if (!isset($_POST['s']))
 		{
 			$this->out .= '<br/><br/><div align="center" style="color:red; font-size: 20px;"><b> ---- No string given: Write smth in field! ---- </b></div><br/><br/>';
 			return;
 		}
-		
+
 		# Send counter!
-		
+
 		if (isset($_POST['du']))
 		{
 			parse_str($_POST['s'],$this->str_in);
 		} else {
 			$this->str_in = $_POST['s'];
 		}
-		
+
 		if ($_GET['m'] == 'std')
 		{
 			$this->out .= '<p><a href="?m=txt" target="_blank">Get result as txt</a> (<a href="?m=txt&d=1">Download it</a>)</p>';
 			$this->out .= '<table border="0" width="100%" align="center">';
 		}
-		
+
 		$this->out .= $this->res ('Raw value(s)', 'ech');
-		
+
 		$this->out .= $this->res ('Timestamp (decode)', 'tms');
 		$this->out .= $this->res ('MD5', 'md5');
 		$this->out .= $this->res ('SHA 1', 'sha1');
@@ -104,12 +97,12 @@ class web_tools
 		$this->out .= $this->res ('BASE64 (HEX decode)', 'base64_hex');
 		$this->out .= $this->res ('BASE64 (decode)', 'base64_decode');
 		$this->out .= $this->res ('BASE64 (encode)', 'base64_encode');
-		
+
 		if ($_GET['m'] == 'std')
 		{
 			$this->out .= '</table>';
 		}
-		
+
 		if ($_GET['m'] == 'txt')
 		{
 			if (@$_GET['d'])
@@ -118,12 +111,12 @@ class web_tools
 				header ('Content-Disposition: inline; filename=decode-'.time().'.txt');
 			} else
 				header ('Content-Type: text/plain; charset=UTF-8');
-				
+
 			echo $this->out;
 			exit ();
 		}
 	}
-	
+
 	function res ($title, $callback)
 	{
 		if (!function_exists($callback))
@@ -136,13 +129,13 @@ class web_tools
 			if ($_GET['m'] == 'txt')
 				return $this->res_out($title, $callback($this->str_in));
 		}
-		
+
 		# it is an array
 		if ($_GET['m'] == 'std')
 			$res = '<table width="100%" border="0" cellspacing="0" cellpading="2">';
 		if ($_GET['m'] == 'txt')
 			$res = '';
-			
+
 		foreach ($this->str_in as $k=>$v)
 		{
 			if ($_GET['m'] == 'std')
@@ -160,7 +153,7 @@ class web_tools
 			$res .= "\n";
 		return $this->res_out($title, $res);
 	}
-	
+
 	function res_out ($title, $res)
 	{
 		$this->f_c++;
@@ -177,14 +170,14 @@ class web_tools
 		}
 		return $out;
 	}
-	
+
 	function show_form ()
 	{
 		$u_ch = '';
-		
+
 		if (isset($_POST['du']))
 			$u_ch = 'checked="checked"';
-		
+
 		$out = '';
 		$out .= '<form method="post"><table border="0" cellpadding="5" cellspacing="5" width="100%">';
 		$out .= '<tr><td align="center"><textarea name="s" class="inp" style="width:98%" wrap="no" rows="10">'.htmlspecialchars(@$_POST['s']).'</textarea></td>';
@@ -261,7 +254,7 @@ function char2 ($s)
 function tms ($s)
 {
 	if (!is_numeric($s)) return ' - Not a timestamp - ';
-	
+
 	return gmdate ('d.m.Y H:i:s', $s).' (GMT)';
 }
 
@@ -378,7 +371,7 @@ label
 function my_getbyid(id)
 {
 	itm = null;
-	
+
 	if (document.getElementById)
 	{
 		itm = document.getElementById(id);
@@ -391,7 +384,7 @@ function my_getbyid(id)
 	{
 		itm = document.layers[id];
 	}
-	
+
 	return itm;
 }
 
@@ -402,16 +395,16 @@ function show_textarea (id)
 		alert ('Not avaliable in DECODE URI mode');
 		return;
 	}
-	
+
 	if (my_getbyid('res_h_'+id))
 	{
 		my_getbyid('res_h_'+id).innerHTML = '<textarea wrap="on" style="width:98%" rows="5" id="res_text_'+id+'">'+my_getbyid('res_'+id).innerHTML+'</textarea>';
-		
+
 		my_getbyid('res_text_'+id).select();
 		my_getbyid('res_text_'+id).focus ();
-		
+
 		copy_clip(my_getbyid('res_'+id).innerHTML, id, true);
-		
+
 		if (my_getbyid('res_tr_1_'+id).style.visibility == 'visible')
 		{
 			my_getbyid('res_tr_1_'+id).style.visibility = 'collapse';
@@ -424,11 +417,11 @@ function show_textarea (id)
 }
 
 function copy_clip(meintext, id, hide)
-{	
-	if (window.clipboardData) 
+{
+	if (window.clipboardData)
 	{
 		window.clipboardData.setData("Text", meintext);
-	} else if (window.netscape) 
+	} else if (window.netscape)
 	{
 		try {
 			netscape.security.PrivilegeManager.enablePrivilege('UniversalXPConnect');
